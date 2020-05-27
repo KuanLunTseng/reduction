@@ -5,12 +5,11 @@ import random
 NAME = ["Aaron", "Baldhere", "Camillia", "Dunstin", "Eulalia", "Francisco", "Gregory", "Hinrick", "Irina", "Jovonnah", "Krystiano", "Lucena", "Martha", "Norris", "Owain", "Pyrena", "Quinn", "Renato", "Salomon", "Toynetta", "Una", "Verlin", "Wythe", "Xena", "York", "Zaza"]
 NUM = len(NAME)
 
+class Person(object):
+    def __init__(self, name, friend_list):
+        self.name = name
+        self.friend_list = friend_list
 
-
-
-with open('list.json') as json_file:
-    data = json.load(json_file)
-    
 def rand_friend_list(name):
     friend_list = cpy(NAME)
     
@@ -21,7 +20,7 @@ def rand_friend_list(name):
     
     return sorted([friend_list.pop() for i in range(n)])
     
-def create_json_file():
+def write_json_file():
     data = {}
     data['people'] = []
     for n in NAME:
@@ -33,13 +32,23 @@ def create_json_file():
     with open('data.json', 'w') as outfiles:
         json.dump(data, outfiles)
 
-
-
+def read_json_file():
+    with open('data.json') as json_file:
+        data = json.load(json_file)
+    
+    return [Person(p['Name'], p['Friends']) for p in data['people']]
 
 
 
 def main():
-    create_json_file()
+    # You should comment out the code below because you only need it once
+    #write_json_file()
+    
+    network = read_json_file()
+    for n in network:
+        print(n.name)
+        print(n.friend_list)
+        print('')
 
 if __name__ == '__main__':
    main()
